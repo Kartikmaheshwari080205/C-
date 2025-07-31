@@ -8,9 +8,8 @@ int main()
     double combinations;
     cout << "Enter your n: ";
     cin >> n;
-    cout << endl << "Enter your k: ";
+    cout << "Enter your k: ";
     cin >> k;
-    cout << endl;
     if((k>n) || (n<0 || k<0))
     {
         cout << "ERROR!!, enter correct n and k";
