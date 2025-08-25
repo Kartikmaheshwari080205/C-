@@ -18,9 +18,6 @@ int MinDiff(int n, vector<int>& A, int k)
             if(diff < result && abs(index[i].second - index[j].second) >= k)
             {
                 result = diff;
-            }
-            else if(diff >= result)
-            {
                 break;
             }
         }
