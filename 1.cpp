@@ -20,6 +20,6 @@ int main()
         cout << tgamma(n+1) << endl;
         cout << tgamma(k+1) << endl;
         cout << tgamma(n-k+1) << endl;
-        cout << combinations;
+        cout << combinations << endl;
     }
 }
