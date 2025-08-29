@@ -4,13 +4,18 @@ using namespace std;
 int CountFactorSubsets(int n)
 {
     vector<int> factors;
-    for(int i=1; i<=n; i++)
+    for(int i=1; i<=sqrt(n); i++)
     {
         if(n % i == 0)
         {
             factors.push_back(i);
+            if(i * i != n)
+            {
+                factors.push_back(n / i);
+            }
         }
     }
+    sort(factors.begin(), factors.end());
     vector<int> dp(n+1, 0);
     dp[1] = 1;
     for(int factor : factors)
