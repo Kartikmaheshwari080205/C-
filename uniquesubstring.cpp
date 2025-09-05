@@ -4,35 +4,16 @@ using namespace std;
 int MaxSubstringLength(string& s)
 {
     int n = s.size();
-    if(n == 0)
+    unordered_set<char> set;
+    int result = 0, left = 0;
+    for(int right = 0; right < n; right++)
     {
-        return 0;
-    }
-    vector<int> dp(n, 0);
-    unordered_map<char, int> last;
-    dp[0] = 1;
-    last[s[0]] = 0;
-    int result = 1;
-    for(int i=1; i<n; i++)
-    {
-        if(!last.count(s[i]))
+        while(set.count(s[right]))
         {
-            dp[i] = dp[i-1] + 1;
+            set.erase(s[left++]);
         }
-        else
-        {
-            int lastpos = last[s[i]];
-            if(i - lastpos > dp[i-1])
-            {
-                dp[i] = dp[i-1] + 1;
-            }
-            else
-            {
-                dp[i] = i - lastpos;
-            }
-        }
-        last[s[i]] = i;
-        result = max(result, dp[i]);
+        set.insert(s[right]);
+        result = max(result, right - left + 1);
     }
     return result;
 }
