@@ -1,6 +1,20 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+void InsertBottom(stack<int>& st, int x)
+{
+    if(st.empty())
+    {
+        st.push(x);
+        return;
+    }
+    int y = st.top();
+    st.pop();
+    InsertBottom(st, x);
+    st.push(y);
+    return;
+}
+
 void ReverseStack(stack<int>& st)
 {
     if(st.empty())
@@ -10,18 +24,7 @@ void ReverseStack(stack<int>& st)
     int x = st.top();
     st.pop();
     ReverseStack(st);
-    stack<int> temp;
-    while(!st.empty())
-    {
-        temp.push(st.top());
-        st.pop();
-    }
-    st.push(x);
-    while(!temp.empty())
-    {
-        st.push(temp.top());
-        temp.pop();
-    }
+    InsertBottom(st, x);
     return;
 }
 
