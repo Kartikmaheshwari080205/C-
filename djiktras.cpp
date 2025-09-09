@@ -1,53 +1,79 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void DjiktrasAlgorithm(int n, vector<vector<int>>& adj, vector<vector<int>>& distance)
+pair<vector<int>, vector<int>> Djiktras(int n, vector<vector<pair<int, int>>>& adj, int src)
 {
-    for(int i=0; i<n; i++)
+    vector<int> distance(n, INT_MAX);
+    vector<int> parent(n, -1);
+    distance[src] = 0;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({0, src});
+    while(!pq.empty())
     {
-        queue<pair<int, int>> q;
-        vector<bool> visited(n, false);
-        visited[i] = true;
-        distance[i][i] = 0;
-        q.push({i, 0});
-        while(!q.empty())
+        int node = pq.top().second;
+        int dist = pq.top().first;
+        pq.pop();
+        if(dist > distance[node])
         {
-            int node = q.front().first;
-            int dist = q.front().second;
-            q.pop();
-            for(auto& v : adj[node])
+            continue;
+        }
+        for(auto& edge : adj[node])
+        {
+            if(distance[edge.first] > dist + edge.second)
             {
-                if(!visited[v])
-                {
-                    visited[v] = true;
-                    distance[i][v] = dist + 1;
-                    q.push({v, dist + 1});
-                }
+                distance[edge.first] = dist + edge.second;
+                parent[edge.first] = node;
+                pq.push({distance[edge.first], edge.first});
             }
         }
     }
+    return {distance, parent};
+}
+
+vector<int> GetPath(int src, int dest, vector<int>& parent)
+{
+    vector<int> path;
+    for(int v = dest; v != -1; v = parent[v])
+    {
+        path.push_back(v);
+    }
+    reverse(path.begin(), path.end());
+    if(path[0] != src)
+    {
+        return {};
+    }
+    return path;
 }
 
 int main()
 {
     int n, e;
     cin >> n >> e;
-    vector<vector<int>> adj(n);
+    vector<vector<pair<int, int>>> adj(n);
     for(int i=0; i<e; i++)
     {
-        int u, v;
-        cin >> u >> v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+        int u, v, w;
+        cin >> u >> v >> w;
+        adj[u].push_back({v, w});
+        adj[v].push_back({u, w});
     }
-    vector<vector<int>> distance(n, vector<int>(n, INT_MAX));
-    DjiktrasAlgorithm(n, adj, distance);
-    cout << "Distance matrix: " << endl;
-    for(int i=0; i<n; i++)
+    int src, dest;
+    cin >> src >> dest;
+
+    auto result = Djiktras(n, adj, src);
+    vector<int> distance = result.first;
+    vector<int> parent = result.second;
+    if(distance[dest] == INT_MAX)
     {
-        for(int j=0; j<n; j++)
+        cout << -1 << endl;
+    }
+    else
+    {
+        cout << distance[dest] << endl;
+        vector<int> path = GetPath(src, dest, parent);
+        for(auto& node : path)
         {
-            cout << (distance[i][j] == INT_MAX ? -1 : distance[i][j]) << " ";
+            cout << node << " ";
         }
         cout << endl;
     }
