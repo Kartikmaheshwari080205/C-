@@ -13,8 +13,12 @@ bool CanServe(int n, int m, vector<int>& A, int time)
 
 int MintimeToProcess(int n, int m, vector<int>& A)
 {
-    sort(A.begin(), A.end());
-    int low = 0, high = A[0] * m;
+    int minnum = *min_element(A.begin(), A.end());
+    if(m == 0)
+    {
+        return 0;
+    }
+    int low = minnum, high = minnum * m;
     int result = high;
     while(low <= high)
     {
