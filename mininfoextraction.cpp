@@ -11,14 +11,14 @@ int MinLeak(int n, vector<int>& A, int trust, int maxtrust)
     {
         trust = maxtrust;
     }
-    vector<int> dp(maxtrust + 1, INT_MAX);
+    vector<long long> dp(maxtrust + 1, LLONG_MAX);
     dp[trust] = 0;
     for(int a : A)
     {
-        vector<int> newdp(maxtrust + 1, INT_MAX);
+        vector<long long> newdp(maxtrust + 1, LLONG_MAX);
         for(int t=1; t<=maxtrust; t++)
         {
-            if(dp[t] == INT_MAX)
+            if(dp[t] == LLONG_MAX)
             {
                 continue;
             }
@@ -36,12 +36,12 @@ int MinLeak(int n, vector<int>& A, int trust, int maxtrust)
         }
         dp = newdp;
     }
-    int result = INT_MAX;
+    long long result = LLONG_MAX;
     for(int t=1; t<=maxtrust; t++)
     {
         result = min(result, dp[t]);
     }
-    return result == INT_MAX ? -1 : result;
+    return result == LLONG_MAX ? -1 : result;
 }
 
 int main()
