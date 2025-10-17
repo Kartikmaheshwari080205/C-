@@ -30,7 +30,17 @@ int MinExecutionTime(int n, vector<char>& A, int k)
         }
         else
         {
-            sort(candidate.begin(), candidate.end());
+            sort(candidate.begin(), candidate.end(), [&](pair<int, char>& a, pair<int, char>& b){
+                if(a.first == b.first)
+                {
+                    if(frequency[a.second] == frequency[b.second])
+                    {
+                        return a.second < b.second;
+                    }
+                    return frequency[a.second] > frequency[b.second];
+                }
+                return a.first < b.first;
+            });
             char toexecute = candidate[0].second;
             frequency[toexecute]--;
             index[toexecute] = current;
