@@ -27,8 +27,6 @@ int MinExecutionTime(int n, vector<char>& A, int k)
         if(candidate.empty())
         {
             cout << "null ";
-            current++;
-            continue;
         }
         else
         {
@@ -41,8 +39,8 @@ int MinExecutionTime(int n, vector<char>& A, int k)
                 frequency.erase(toexecute);
             }
             cout << toexecute << " ";
-            current++;
         }
+        current++;
     }
     cout << endl;
     return current - 1;
